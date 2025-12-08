@@ -1,0 +1,209 @@
+.home-page {
+  padding: 0;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.home-banner {
+  margin: -24px -24px 24px -24px;
+  border-radius: 0 0 20px 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.banner-slide {
+  height: 500px;
+}
+
+.banner-image {
+  height: 500px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  transition: transform 0.5s ease;
+}
+
+.banner-slide:hover .banner-image {
+  transform: scale(1.05);
+}
+
+.banner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.banner-overlay h1 {
+  color: white;
+  font-size: 56px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+  animation: fadeInDown 1s ease;
+}
+
+.banner-overlay p {
+  font-size: 28px;
+  margin-bottom: 40px;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 1s ease 0.3s both;
+}
+
+.banner-overlay .ant-btn {
+  animation: fadeInUp 1s ease 0.6s both;
+  padding: 12px 40px;
+  height: auto;
+  font-size: 18px;
+  border-radius: 50px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.banner-overlay .ant-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+.stats-section {
+  margin: 60px 0;
+  padding: 0 20px;
+}
+
+.stats-section .ant-card {
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+  overflow: hidden;
+  position: relative;
+}
+
+.stats-section .ant-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #FFB6C1 0%, #FFC0CB 100%);
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+}
+
+.stats-section .ant-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.stats-section .ant-card:hover::before {
+  transform: scaleX(1);
+}
+
+.features-section {
+  margin: 60px 0;
+  padding: 0 20px;
+}
+
+.features-section .ant-card {
+  border-radius: 20px;
+  border: none;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+  height: 100%;
+}
+
+.features-section .ant-card:hover {
+  transform: translateY(-15px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(102, 126, 234, 0.3);
+}
+
+.features-section .ant-card img {
+  transition: transform 0.6s ease;
+}
+
+.features-section .ant-card:hover img {
+  transform: scale(1.1);
+}
+
+.features-section .ant-card-meta-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+.features-section .ant-card-meta-description {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.features-section .ant-btn-link {
+  color: #FFB6C1;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.features-section .ant-btn-link:hover {
+  color: #FFC0CB;
+  transform: translateX(5px);
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .banner-slide {
+    height: 350px;
+  }
+
+  .banner-image {
+    height: 350px;
+  }
+
+  .banner-overlay h1 {
+    font-size: 36px;
+  }
+
+  .banner-overlay p {
+    font-size: 20px;
+  }
+
+  .banner-overlay .ant-btn {
+    font-size: 16px;
+    padding: 10px 30px;
+  }
+
+  .stats-section,
+  .features-section {
+    margin: 40px 0;
+  }
+}

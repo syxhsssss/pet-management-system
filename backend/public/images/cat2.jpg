@@ -1,0 +1,17 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#FFF8DC"/>
+  <circle cx="400" cy="270" r="70" fill="#FF8C00"/>
+  <path d="M 340 210 L 320 170 L 350 200 Z" fill="#FF8C00"/>
+  <path d="M 460 210 L 480 170 L 450 200 Z" fill="#FF8C00"/>
+  <circle cx="375" cy="260" r="12" fill="#FFD700"/>
+  <circle cx="425" cy="260" r="12" fill="#FFD700"/>
+  <circle cx="375" cy="260" r="6" fill="#000"/>
+  <circle cx="425" cy="260" r="6" fill="#000"/>
+  <path d="M 380 280 L 400 290 L 420 280" stroke="#000" stroke-width="2" fill="none"/>
+  <line x1="350" y1="290" x2="300" y2="285" stroke="#000" stroke-width="2"/>
+  <line x1="350" y1="295" x2="300" y2="300" stroke="#000" stroke-width="2"/>
+  <line x1="450" y1="290" x2="500" y2="285" stroke="#000" stroke-width="2"/>
+  <line x1="450" y1="295" x2="500" y2="300" stroke="#000" stroke-width="2"/>
+  <text x="400" y="450" font-size="48" text-anchor="middle" fill="#FF8C00" font-family="Arial">🐱 橘猫</text>
+  <text x="400" y="500" font-size="24" text-anchor="middle" fill="#666" font-family="Arial">活泼可爱的小吃货</text>
+</svg>

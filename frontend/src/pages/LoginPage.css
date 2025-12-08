@@ -1,0 +1,228 @@
+.login-page {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #FFB6C1 0%, #FFC0CB 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-page::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: backgroundMove 20s linear infinite;
+}
+
+@keyframes backgroundMove {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(50px, 50px);
+  }
+}
+
+.login-container {
+  display: flex;
+  max-width: 1100px;
+  width: 90%;
+  background: white;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
+  animation: fadeInScale 0.8s ease;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.login-banner {
+  flex: 1;
+  padding: 70px 50px;
+  background: linear-gradient(135deg, #FFB6C1 0%, #FFC0CB 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-banner::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1), transparent 50%);
+  animation: rotate 30s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.login-banner > * {
+  position: relative;
+  z-index: 1;
+}
+
+.login-banner h1 {
+  color: white;
+  font-size: 38px;
+  margin-bottom: 15px;
+  font-weight: 700;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+  animation: slideInLeft 0.8s ease;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.login-banner p {
+  font-size: 20px;
+  margin-bottom: 40px;
+  opacity: 0.95;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+  animation: slideInLeft 0.8s ease 0.2s both;
+}
+
+.login-banner ul {
+  list-style: none;
+  padding: 0;
+}
+
+.login-banner ul li {
+  font-size: 17px;
+  margin: 20px 0;
+  padding-left: 30px;
+  opacity: 0.95;
+  position: relative;
+  animation: slideInLeft 0.8s ease 0.4s both;
+}
+
+.login-banner ul li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-form-wrapper {
+  flex: 1;
+  padding: 70px 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  border: none;
+  box-shadow: none;
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  animation: slideInRight 0.8s ease;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.login-card h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.login-card .ant-form-item {
+  margin-bottom: 24px;
+}
+
+.login-card .ant-btn-primary {
+  width: 100%;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 12px;
+}
+
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+    border-radius: 16px;
+  }
+
+  .login-banner {
+    padding: 50px 30px;
+  }
+
+  .login-banner h1 {
+    font-size: 28px;
+  }
+
+  .login-banner p {
+    font-size: 16px;
+  }
+
+  .login-form-wrapper {
+    padding: 50px 30px;
+  }
+
+  .login-card {
+    padding: 30px 20px;
+  }
+}

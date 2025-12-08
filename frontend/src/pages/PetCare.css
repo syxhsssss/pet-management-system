@@ -1,0 +1,172 @@
+.pet-care {
+  padding: 24px;
+  background: linear-gradient(135deg, #fff5f7 0%, #ffe4e8 100%);
+  min-height: calc(100vh - 64px);
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 40px 20px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.page-header h1 {
+  font-size: 36px;
+  color: #FFB6C1;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.page-header p {
+  font-size: 18px;
+  color: #666;
+}
+
+.care-topics {
+  margin-bottom: 40px;
+}
+
+.topic-card {
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  height: 100%;
+}
+
+.topic-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(255, 182, 193, 0.3);
+  border-color: #FFB6C1;
+}
+
+.topic-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.topic-icon {
+  font-size: 24px;
+}
+
+.tip-item {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: #fff5f7;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.tip-item:hover {
+  background: #ffe4e8;
+  transform: translateX(8px);
+}
+
+.tip-item p {
+  margin: 8px 0 0 0;
+  color: #666;
+  line-height: 1.6;
+}
+
+.common-problems {
+  margin-bottom: 40px;
+  padding: 30px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.common-problems h2 {
+  font-size: 28px;
+  color: #FFB6C1;
+  margin-bottom: 24px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.problems-collapse {
+  background: transparent;
+  border: none;
+}
+
+.problems-collapse .ant-collapse-item {
+  margin-bottom: 12px;
+  border: 2px solid #ffe4e8;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.problems-collapse .ant-collapse-header {
+  background: #fff5f7;
+  font-weight: 600;
+  color: #FFB6C1;
+  font-size: 16px;
+}
+
+.problems-collapse .ant-collapse-content {
+  background: white;
+}
+
+.problems-collapse .ant-collapse-content p {
+  color: #666;
+  line-height: 1.8;
+}
+
+.care-reminder {
+  padding: 0;
+}
+
+.reminder-card {
+  border-radius: 16px;
+  background: linear-gradient(135deg, #FFB6C1 0%, #FFC0CB 100%);
+  color: white;
+  border: none;
+}
+
+.reminder-card h3 {
+  color: white;
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.reminder-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.reminder-card li {
+  padding: 12px 0;
+  padding-left: 30px;
+  position: relative;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.reminder-card li::before {
+  content: '♥';
+  position: absolute;
+  left: 0;
+  color: white;
+  font-size: 18px;
+}
+
+@media (max-width: 768px) {
+  .page-header h1 {
+    font-size: 28px;
+  }
+
+  .page-header p {
+    font-size: 16px;
+  }
+
+  .common-problems h2 {
+    font-size: 24px;
+  }
+}

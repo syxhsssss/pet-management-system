@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>测试登录</title>
+</head>
+<body>
+  <h1>测试管理员登录</h1>
+  <button onclick="testLogin()">测试登录</button>
+  <pre id="result"></pre>
+
+  <script>
+    async function testLogin() {
+      const result = document.getElementById('result');
+      result.textContent = '正在测试...\n';
+
+      try {
+        result.textContent += '1. 开始fetch请求...\n';
+        const response = await fetch('http://localhost:3001/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: 'admin',
+            password: 'admin123'
+          })
+        });
+
+        result.textContent += '2. 收到响应，状态码: ' + response.status + '\n';
+
+        const data = await response.json();
+        result.textContent += '3. 响应数据: ' + JSON.stringify(data, null, 2) + '\n';
+
+        if (data.success) {
+          result.textContent += '✅ 登录成功！\n';
+        } else {
+          result.textContent += '❌ 登录失败: ' + data.message + '\n';
+        }
+      } catch (error) {
+        result.textContent += '❌ 错误: ' + error.message + '\n';
+        result.textContent += '错误详情: ' + error.stack + '\n';
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>管理后台测试页面</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { color: #FFB6C1; margin-bottom: 20px; }
+        .section { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .btn { padding: 10px 20px; background: #FFB6C1; color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px; }
+        .btn:hover { background: #FF69B4; }
+        .result { padding: 15px; background: #f9f9f9; border-radius: 4px; margin-top: 10px; max-height: 400px; overflow-y: auto; }
+        .success { color: green; }
+        .error { color: red; }
+        pre { background: #f0f0f0; padding: 10px; border-radius: 4px; overflow-x: auto; }
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px; }
+        .stat-card { padding: 15px; background: #fff5f7; border-radius: 6px; border-left: 3px solid #FFB6C1; }
+        .stat-card h3 { font-size: 14px; color: #666; margin-bottom: 8px; }
+        .stat-card .value { font-size: 28px; color: #FFB6C1; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 管理后台功能测试</h1>
+
+        <div class="section">
+            <h2>第一步：登录测试</h2>
+            <button class="btn" onclick="testLogin()">测试登录</button>
+            <button class="btn" onclick="checkToken()">检查Token</button>
+            <button class="btn" onclick="clearToken()">清除Token</button>
+            <div id="loginResult" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="section">
+            <h2>第二步：数据统计</h2>
+            <button class="btn" onclick="loadStats()">加载统计数据</button>
+            <div id="statsResult" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="section">
+            <h2>第三步：用户数据</h2>
+            <button class="btn" onclick="loadUsers()">加载用户列表</button>
+            <div id="usersResult" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="section">
+            <h2>第四步：商品数据</h2>
+            <button class="btn" onclick="loadProducts()">加载商品列表</button>
+            <button class="btn" onclick="testUpdateProduct()">测试修改商品</button>
+            <div id="productsResult" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="section">
+            <h2>第五步：收养数据</h2>
+            <button class="btn" onclick="loadAdoptions()">加载收养列表</button>
+            <div id="adoptionsResult" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="section">
+            <h2>第六步：帖子数据</h2>
+            <button class="btn" onclick="loadPosts()">加载帖子列表</button>
+            <div id="postsResult" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="section">
+            <h2>完整测试</h2>
+            <button class="btn" onclick="runAllTests()">运行所有测试</button>
+        </div>
+    </div>
+
+    <script>
+        let token = localStorage.getItem('adminToken');
+
+        function showResult(elementId, html) {
+            const elem = document.getElementById(elementId);
+            elem.style.display = 'block';
+            elem.innerHTML = html;
+        }
+
+        async function testLogin() {
+            try {
+                const res = await fetch('/admin/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: 'admin', password: 'admin123' })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    token = data.data.token;
+                    localStorage.setItem('adminToken', token);
+                    showResult('loginResult', `
+                        <p class="success">✅ 登录成功！</p>
+                        <p>用户: ${data.data.user.username}</p>
+                        <p>角色: ${data.data.user.role}</p>
+                        <p>Token: ${token.substring(0, 50)}...</p>
+                    `);
+                } else {
+                    showResult('loginResult', `<p class="error">❌ 登录失败: ${data.message}</p>`);
+                }
+            } catch (e) {
+                showResult('loginResult', `<p class="error">❌ 请求失败: ${e.message}</p>`);
+            }
+        }
+
+        function checkToken() {
+            if (token) {
+                showResult('loginResult', `<p class="success">✅ Token存在: ${token.substring(0, 50)}...</p>`);
+            } else {
+                showResult('loginResult', `<p class="error">❌ Token不存在，请先登录</p>`);
+            }
+        }
+
+        function clearToken() {
+            localStorage.removeItem('adminToken');
+            token = null;
+            showResult('loginResult', `<p>🗑️ Token已清除</p>`);
+        }
+
+        async function loadStats() {
+            if (!token) {
+                showResult('statsResult', '<p class="error">❌ 请先登录获取Token</p>');
+                return;
+            }
+
+            try {
+                const res = await fetch('/admin/api/statistics', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    const s = data.data;
+                    showResult('statsResult', `
+                        <p class="success">✅ 统计数据加载成功！</p>
+                        <div class="stat-grid">
+                            <div class="stat-card"><h3>总用户数</h3><div class="value">${s.users?.total_users || 0}</div></div>
+                            <div class="stat-card"><h3>活跃用户</h3><div class="value">${s.users?.active_users || 0}</div></div>
+                            <div class="stat-card"><h3>帖子总数</h3><div class="value">${s.posts?.total_posts || 0}</div></div>
+                            <div class="stat-card"><h3>待收养</h3><div class="value">${s.adoptions?.available_count || 0}</div></div>
+                            <div class="stat-card"><h3>商品总数</h3><div class="value">${s.products?.total_products || 0}</div></div>
+                            <div class="stat-card"><h3>订单总数</h3><div class="value">${s.orders?.total_orders || 0}</div></div>
+                        </div>
+                        <pre>${JSON.stringify(data.data, null, 2)}</pre>
+                    `);
+                } else {
+                    showResult('statsResult', `<p class="error">❌ 加载失败: ${data.message}</p>`);
+                }
+            } catch (e) {
+                showResult('statsResult', `<p class="error">❌ 请求失败: ${e.message}</p>`);
+            }
+        }
+
+        async function loadUsers() {
+            if (!token) {
+                showResult('usersResult', '<p class="error">❌ 请先登录获取Token</p>');
+                return;
+            }
+
+            try {
+                const res = await fetch('/admin/api/users', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    showResult('usersResult', `
+                        <p class="success">✅ 找到 ${data.data.length} 个用户</p>
+                        <pre>${JSON.stringify(data.data.slice(0, 3), null, 2)}</pre>
+                    `);
+                } else {
+                    showResult('usersResult', `<p class="error">❌ 加载失败: ${data.message}</p>`);
+                }
+            } catch (e) {
+                showResult('usersResult', `<p class="error">❌ 请求失败: ${e.message}</p>`);
+            }
+        }
+
+        async function loadProducts() {
+            if (!token) {
+                showResult('productsResult', '<p class="error">❌ 请先登录获取Token</p>');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/shop/products', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    const products = data.data.slice(0, 3);
+                    showResult('productsResult', `
+                        <p class="success">✅ 找到 ${data.data.length} 个商品</p>
+                        ${products.map(p => `
+                            <div style="padding: 10px; margin: 10px 0; background: #f9f9f9; border-radius: 4px;">
+                                <strong>${p.name}</strong> - ¥${p.price}<br>
+                                图片: ${p.images}<br>
+                                <img src="${JSON.parse(p.images)[0]}" style="max-width: 200px; margin-top: 5px;" onerror="this.src='http://localhost:3001/images/dog1.jpg'">
+                            </div>
+                        `).join('')}
+                    `);
+                } else {
+                    showResult('productsResult', `<p class="error">❌ 加载失败: ${data.message}</p>`);
+                }
+            } catch (e) {
+                showResult('productsResult', `<p class="error">❌ 请求失败: ${e.message}</p>`);
+            }
+        }
+
+        async function testUpdateProduct() {
+            if (!token) {
+                showResult('productsResult', '<p class="error">❌ 请先登录获取Token</p>');
+                return;
+            }
+
+            try {
+                // 测试更新第一个商品的图片
+                const res = await fetch('/admin/api/products/1', {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: '皇家狗粮成犬粮 10kg',
+                        category: '食品',
+                        price: 199,
+                        stock: 50,
+                        description: '高品质狗粮',
+                        images: 'http://localhost:3001/images/dog1.jpg',
+                        tags: '狗粮,营养'
+                    })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    showResult('productsResult', `<p class="success">✅ 商品更新成功！现在重新加载商品列表测试</p>`);
+                    setTimeout(loadProducts, 1000);
+                } else {
+                    showResult('productsResult', `<p class="error">❌ 更新失败: ${data.message}</p>`);
+                }
+            } catch (e) {
+                showResult('productsResult', `<p class="error">❌ 请求失败: ${e.message}</p>`);
+            }
+        }
+
+        async function loadAdoptions() {
+            if (!token) {
+                showResult('adoptionsResult', '<p class="error">❌ 请先登录获取Token</p>');
+                return;
+            }
+
+            try {
+                const res = await fetch('/admin/api/adoptions', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    const adoptions = data.data.slice(0, 3);
+                    showResult('adoptionsResult', `
+                        <p class="success">✅ 找到 ${data.data.length} 个待收养宠物</p>
+                        ${adoptions.map(a => `
+                            <div style="padding: 10px; margin: 10px 0; background: #f9f9f9; border-radius: 4px;">
+                                <strong>${a.name}</strong> - ${a.species} - ${a.location}<br>
+                                图片: ${a.photos}<br>
+                                <img src="${JSON.parse(a.photos)[0]}" style="max-width: 200px; margin-top: 5px;" onerror="this.src='http://localhost:3001/images/dog1.jpg'">
+                            </div>
+                        `).join('')}
+                    `);
+                } else {
+                    showResult('adoptionsResult', `<p class="error">❌ 加载失败: ${data.message}</p>`);
+                }
+            } catch (e) {
+                showResult('adoptionsResult', `<p class="error">❌ 请求失败: ${e.message}</p>`);
+            }
+        }
+
+        async function loadPosts() {
+            if (!token) {
+                showResult('postsResult', '<p class="error">❌ 请先登录获取Token</p>');
+                return;
+            }
+
+            try {
+                const res = await fetch('/admin/api/posts', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    const posts = data.data.slice(0, 3);
+                    showResult('postsResult', `
+                        <p class="success">✅ 找到 ${data.data.length} 个帖子</p>
+                        ${posts.map(p => `
+                            <div style="padding: 10px; margin: 10px 0; background: #f9f9f9; border-radius: 4px;">
+                                <strong>${p.nickname}</strong>: ${p.content.substring(0, 50)}...<br>
+                                图片: ${p.images}<br>
+                                ${p.images && p.images !== '[]' ? `<img src="${JSON.parse(p.images)[0]}" style="max-width: 200px; margin-top: 5px;" onerror="this.src='http://localhost:3001/images/dog1.jpg'">` : ''}
+                            </div>
+                        `).join('')}
+                    `);
+                } else {
+                    showResult('postsResult', `<p class="error">❌ 加载失败: ${data.message}</p>`);
+                }
+            } catch (e) {
+                showResult('postsResult', `<p class="error">❌ 请求失败: ${e.message}</p>`);
+            }
+        }
+
+        async function runAllTests() {
+            await testLogin();
+            await new Promise(r => setTimeout(r, 500));
+            await loadStats();
+            await new Promise(r => setTimeout(r, 500));
+            await loadUsers();
+            await new Promise(r => setTimeout(r, 500));
+            await loadProducts();
+            await new Promise(r => setTimeout(r, 500));
+            await loadAdoptions();
+            await new Promise(r => setTimeout(r, 500));
+            await loadPosts();
+            alert('✅ 所有测试完成！请查看各项结果');
+        }
+
+        // 页面加载时检查token
+        window.onload = function() {
+            if (token) {
+                checkToken();
+            }
+        };
+    </script>
+</body>
+</html>

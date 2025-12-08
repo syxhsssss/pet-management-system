@@ -1,0 +1,11 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#E8E8E8"/>
+  <circle cx="400" cy="250" r="80" fill="#654321"/>
+  <circle cx="370" cy="230" r="15" fill="#000"/>
+  <circle cx="430" cy="230" r="15" fill="#000"/>
+  <ellipse cx="400" cy="270" rx="25" ry="15" fill="#000"/>
+  <path d="M 320 200 Q 300 150 320 140" stroke="#654321" stroke-width="3" fill="none"/>
+  <path d="M 480 200 Q 500 150 480 140" stroke="#654321" stroke-width="3" fill="none"/>
+  <text x="400" y="450" font-size="48" text-anchor="middle" fill="#654321" font-family="Arial">🐕 拉布拉多</text>
+  <text x="400" y="500" font-size="24" text-anchor="middle" fill="#666" font-family="Arial">忠诚聪明的工作犬</text>
+</svg>
